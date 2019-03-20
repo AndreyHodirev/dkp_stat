@@ -17,10 +17,12 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-
-Route::get('/guilds', 'GuildController@index')->name('guilds')->middleware(['auth', 'confirmed']);
-
-Route::get('users/{user}/request-confirmation', 'UserEmailConfirmationController@request')->name('request-confirm-email')->middleware('auth');
-Route::post('users/{user}/send-confirmation-email', 'UserEmailConfirmationController@sendEmail')->name('send-confirmation-email')->middleware('auth');
-Route::get('users/{user}/confirm-email/{token}', 'UserEmailConfirmationController@confirm')->name('confirm-email');
+Route::middleware(['auth','confirmed'])->group(function(){
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/guilds', 'GuildController@index')->name('guilds');
+});
+Route::middleware('auth')->group(function(){
+    Route::get('users/{user}/request-confirmation', 'UserEmailConfirmationController@request')->name('request-confirm-email');
+    Route::post('users/{user}/send-confirmation-email', 'UserEmailConfirmationController@sendEmail')->name('send-confirmation-email');
+    Route::get('users/{user}/confirm-email/{token}', 'UserEmailConfirmationController@confirm')->name('confirm-email');
+});

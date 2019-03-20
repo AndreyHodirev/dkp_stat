@@ -21,6 +21,7 @@ class UserEmailConfirmationController extends Controller
     {
         $token = $user->getEmailConfirmationToken();
         Mail::to($user->email)->send(new EmailConfirmation($user, $token));
+        return view('mails.email-send');
     }
 
     public function confirm(User $user, $token)
