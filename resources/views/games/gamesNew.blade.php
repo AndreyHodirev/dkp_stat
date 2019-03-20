@@ -5,7 +5,7 @@
         <h1>Add new game</h1>
 
         <form action="{{ route('games.store')}}" method="POST" enctype="multipart/form-data">
-        {{csrf_field()}}
+            {{csrf_field()}}
             <div class="form-group">
                 <label for="name">Game : </label><br>
                 <input type="text" name="name" placeholder="Enter game name">
@@ -18,11 +18,7 @@
                 <label for="logo">Select game logo : </label><br>
                 <input type="file" name="logo">    
             </div>            
-            <button btn btn-default type="submit">TEST</button>
-
-            @isset($path)
-                <img class="img-fluid" src="{{ asset('/storage/'.$path) }}" alt="">
-            @endisset
+            <button btn btn-default type="submit">Add game</button>
         </form>
     </div>
 @stop 
