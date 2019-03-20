@@ -19,7 +19,10 @@ Auth::routes();
 
 Route::middleware(['auth','confirmed'])->group(function(){
     Route::get('/home', 'HomeController@index')->name('home');
-    Route::get('/guilds', 'GuildController@index')->name('guilds');
+    Route::resources([
+        'guilds' => 'GuildController',
+        'games' => 'GameController',
+    ]);
 });
 Route::middleware('auth')->group(function(){
     Route::get('users/{user}/request-confirmation', 'UserEmailConfirmationController@request')->name('request-confirm-email');
