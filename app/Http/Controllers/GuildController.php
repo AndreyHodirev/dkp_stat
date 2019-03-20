@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Game;
 class GuildController extends Controller
 {
     /**
@@ -23,7 +23,8 @@ class GuildController extends Controller
      */
     public function create()
     {
-        //
+        $games = Game::all();
+        return view('guilds.guildsNew')->with('games', $games);
     }
 
     /**
@@ -34,7 +35,9 @@ class GuildController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $guild = new Guild;
+
+        $guild->name = $request->input('name');
     }
 
     /**
