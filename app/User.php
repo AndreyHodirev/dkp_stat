@@ -72,9 +72,15 @@ class User extends Authenticatable
         ]);
         return $this;
     }
+    
     public function game()
     {
         return $this->hasOne('App\Game');
+    }
+
+    public function guild()
+    {
+        return $this->hasOne('App\Guild');
     }
 }
 

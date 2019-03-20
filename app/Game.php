@@ -10,4 +10,8 @@ class Game extends Model
     {
         return $this->belongsTo('App\User');
     }
+    public function guild()
+    {
+        return $this->hasOne('App\Guild');
+    }
 }
