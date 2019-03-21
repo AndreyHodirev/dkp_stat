@@ -2,6 +2,7 @@
 
 @section('content')
     <div class="container">
+        <form action="{{route('guilds.store')}}" method="POST" enctype="multipart/form-data">
         <div class="form-group">
             {{csrf_field()}}
             <label for="game">GAME : </label> <br>

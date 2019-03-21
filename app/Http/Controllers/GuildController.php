@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Game;
+use App\Guild;
 class GuildController extends Controller
 {
     /**
@@ -13,7 +14,8 @@ class GuildController extends Controller
      */
     public function index()
     {
-        return view('guilds.guildsIndex');
+        $guilds = Guild::all();
+        return view('guilds.guildsIndex')->with('guilds',$guilds);
     }
 
     /**
@@ -35,11 +37,17 @@ class GuildController extends Controller
      */
     public function store(Request $request)
     {
+        $path = $request->file('logo_guild')->store('uploads', 'public');
+
         $guild = new Guild;
-
         $guild->name = $request->input('name');
+        $guild->description = $request->input('description');
+        $guild->leader_id = Auth::id();
+        $guild->path_logo = $path;
+        $guild->game_id = $request->input('game');
+        $guild->save();
+        return redirect()->route('guilds.index');
     }
-
     /**
      * Display the specified resource.
      *
