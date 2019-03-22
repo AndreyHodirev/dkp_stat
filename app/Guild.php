@@ -14,4 +14,15 @@ class Guild extends Model
     {
         return $this->belongsTo('App\Game', 'game_id', 'id');
     }
+    public function event()
+    {
+        return $this->hasOne('App\Event');
+    }
+    /*
+    * Many to Many relationships (guild_user)
+    */
+    public function users()
+    {
+        return $this->belongsToMany('App\User');
+    }
 }

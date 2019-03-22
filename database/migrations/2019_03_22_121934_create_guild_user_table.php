@@ -14,7 +14,8 @@ class CreateGuildUserTable extends Migration
     public function up()
     {
         Schema::create('guild_user', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->integer('user_id');
+            $table->integer('guild_id');
             $table->timestamps();
         });
     }

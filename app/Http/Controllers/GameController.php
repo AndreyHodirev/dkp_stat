@@ -38,7 +38,11 @@ class GameController extends Controller
      */
     public function store(Request $request)
     {
-        $path = $request->file('logo')->store('uploads', 'public');
+        if($request->file('logo')!== null) {
+            $path = $request->file('logo')->store('uploads', 'public');
+        } else {
+            $path = null;
+        }
         $game = new Game;
         $game->name = $request->input('name');
         $game->description = $request->input('description');

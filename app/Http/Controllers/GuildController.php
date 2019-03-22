@@ -37,8 +37,11 @@ class GuildController extends Controller
      */
     public function store(Request $request)
     {
-        $path = $request->file('logo_guild')->store('uploads', 'public');
-
+        if($request->file('logo_guild')!== null) {
+            $path = $request->file('logo_guild')->store('uploads', 'public');
+        } else { 
+            $path = null;
+        }
         $guild = new Guild;
         $guild->name = $request->input('name');
         $guild->description = $request->input('description');
