@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\UserEmailConfirmationController;
 
@@ -23,8 +25,10 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
-    {
+    {   
         
-        return view('home');
+        return view('home',[
+            'user'     => User::find(Auth::id()),
+        ]);
     }
 }

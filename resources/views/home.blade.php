@@ -13,8 +13,9 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
-                    You are logged in!
+                    You are logged in! <br>
+                    You are in such guilds as:
+                    {{ $user->guilds()->pluck('name')->implode(', ') }}
                 </div>
             </div>
         </div>
