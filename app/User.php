@@ -82,6 +82,10 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Guild');
     }
+    public function applications()
+    {
+        return $this->hasOne('App\Application');
+    }
     /*
     * Many to Many relationships (role_user)
     */

@@ -59,7 +59,9 @@ class GuildController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('guilds.guildsShow',[
+            'guild' => Guild::find($id),
+        ]);
     }
 
     /**
@@ -95,4 +97,5 @@ class GuildController extends Controller
     {
         //
     }
+    
 }

@@ -18,6 +18,10 @@ class Guild extends Model
     {
         return $this->hasOne('App\Event');
     }
+    public function applications()
+    {
+        return $this->hasOne('App\Application');
+    }
     /*
     * Many to Many relationships (guild_user)
     */
