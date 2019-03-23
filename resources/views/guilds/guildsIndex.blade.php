@@ -4,6 +4,7 @@
     <div class="container">
         <h1>Guild list</h1>
         <a href="{{ route('guilds.create')}}" class="btn btn-primary"> Create guild</a>
+        <hr>
     </div>
     <div class="container">
         @foreach($guilds as $guild)
@@ -14,6 +15,8 @@
             {{ $guild->description }} <br>
             <p>Guild Leader : {{ $guild->user->name }}</p>
             <p>Game : {{ $guild->game->name }}</p>
+            <a href="{{route('guild.join', ['id' => $guild->id])}}">Send request?</a><br><hr>
         @endforeach 
+        
     </div>
 @stop 

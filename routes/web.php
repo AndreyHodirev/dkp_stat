@@ -23,6 +23,8 @@ Route::middleware(['auth','confirmed'])->group(function(){
         'guilds' => 'GuildController',
         'games' => 'GameController',
     ]);
+    Route::get('/to_join/{guild}', 'GuildController@to_join')->name('guild.join');
+    Route::post('/send_request', 'GuildController@send_req')->name('guild.request_new');
 });
 Route::middleware('auth')->group(function(){
     Route::get('users/{user}/request-confirmation', 'UserEmailConfirmationController@request')->name('request-confirm-email');

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Game;
 use App\Guild;
+use App\Application;
 class GuildController extends Controller
 {
     /**
@@ -61,6 +62,7 @@ class GuildController extends Controller
     {
         return view('guilds.guildsShow',[
             'guild' => Guild::find($id),
+            'requests' => Application::where('guild_id', $id)->get(),
         ]);
     }
 
@@ -98,4 +100,29 @@ class GuildController extends Controller
         //
     }
     
+    public function to_join($id)
+    {
+        return view('guilds.guildsFormJoin',[
+            'guild' => Guild::find($id),
+        ]);
+    }
+    public function send_req(Request $request)
+    {
+        $guild = Guild::find($request->input('guild_id'));
+        if(  $guild->users()->pluck('id')->implode('') != Auth::id())
+        {
+            $app = new Application;
+            $app->guild_id  = $request->input('guild_id');
+            $app->user_id   = Auth::id();
+            $app->name      = $request->input('name');
+            $app->description = $request->input('description');
+            $app->save();
+            return redirect()->route('home');
+        } else 
+        {
+            return redirect()->route('guilds.show', ['id' => $request->input('guild_id') ]);
+        }
+       
+        
+    }
 }
