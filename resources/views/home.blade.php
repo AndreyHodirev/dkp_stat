@@ -15,7 +15,9 @@
                     @endif
                     You are logged in! <br>
                     You are in such guilds as:
-                    {{ $user->guilds()->pluck('name')->implode(', ') }}
+                    @foreach($user->guilds()->pluck('id') as $gg)
+                      <hr><a href="{{route('guilds.show', ['id' => $gg])}}">{{$user->guilds()->where('id', $gg)->pluck('name')->implode('')}}</a>
+                    @endforeach
                 </div>
             </div>
         </div>
