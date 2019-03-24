@@ -7,6 +7,8 @@ use Illuminate\Support\Str;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Auth;
+
 
 class User extends Authenticatable
 {
@@ -73,6 +75,11 @@ class User extends Authenticatable
         return $this;
     }
     
+    public function is_manager()
+    {
+        return $this->guilds()->where('leader_id', Auth::id())->pluck('id');
+    }
+
     public function game()
     {
         return $this->hasOne('App\Game');

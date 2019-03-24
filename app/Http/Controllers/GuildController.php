@@ -60,9 +60,11 @@ class GuildController extends Controller
      */
     public function show($id)
     {
+        $guild = Guild::find($id);
         return view('guilds.guildsShow',[
             'guild' => Guild::find($id),
             'requests' => Application::where('guild_id', $id)->get(),
+            'is_member' => $guild->user()->where('id', Auth::id())->pluck('name'),
         ]);
     }
 
@@ -122,7 +124,19 @@ class GuildController extends Controller
         {
             return redirect()->route('guilds.show', ['id' => $request->input('guild_id') ]);
         }
-       
-        
+    }
+    public function memberAdd(Request $request)
+    {
+        $mngm = Guild::select('leader_id')->where('id',$request->input('guild_id'))->first();
+        if(Auth::id() != $mngm->leader_id)
+        {
+            return redirect()->back();
+        } else
+        {
+            $guild = Guild::find($request->input('guild_id'));
+            $guild->users()->attach($request->input('user_id'));
+            Application::destroy($request->input('id'));
+            return redirect()->route('guilds.show',['id' => $request->input('guild_id')]);
+        }
     }
 }

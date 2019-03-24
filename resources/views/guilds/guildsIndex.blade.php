@@ -15,7 +15,6 @@
             {{ $guild->description }} <br>
             <p>Guild Leader : {{ $guild->user->name }}</p>
             <p>Game : {{ $guild->game->name }}</p>
-            <a href="{{route('guild.join', ['id' => $guild->id])}}">Send request?</a><br><hr>
         @endforeach 
         
     </div>

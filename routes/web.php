@@ -25,7 +25,9 @@ Route::middleware(['auth','confirmed'])->group(function(){
     ]);
     Route::get('/to_join/{guild}', 'GuildController@to_join')->name('guild.join');
     Route::post('/send_request', 'GuildController@send_req')->name('guild.request_new');
+    Route::post('/addMember', 'GuildController@memberAdd')->name('guild.add_new_member');
 });
+
 Route::middleware('auth')->group(function(){
     Route::get('users/{user}/request-confirmation', 'UserEmailConfirmationController@request')->name('request-confirm-email');
     Route::post('users/{user}/send-confirmation-email', 'UserEmailConfirmationController@sendEmail')->name('send-confirmation-email');
