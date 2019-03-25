@@ -44,5 +44,17 @@
             <p>Entry applications can only be seen by the leader or officers</p>
         @endif
        </div>
+       @if($activ_user->id == $guild->leader_id)
+            <button class="btn btn-alert">DELETE GUILD</button>
+       @elseif($activ_user->guild_id == $guild->id)
+            <form action="{{route('guild.exitMember')}}" method="POST">
+                {{csrf_field()}}
+                <input type="hidden" name="user_id" value="{{$activ_user->id}}">
+                <button class="btn btn-alert" type="submit">EXIT GUILD</button>
+            </form>
+            
+       @else
+            <p>NO MEMBER</p>
+       @endif
     </div>
 @stop 

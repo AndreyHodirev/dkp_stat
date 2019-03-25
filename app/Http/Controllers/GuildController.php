@@ -153,4 +153,17 @@ class GuildController extends Controller
             return redirect()->route('guilds.show',['id' => $request->input('guild_id')]);
         }
     }
+    public function exitMember(Request $request)
+    {
+        if($request->input('user_id') == Auth::id())
+        {
+            $user = User::find(Auth::id());
+            $user->guild_id = null;
+            $user->save();
+            return redirect()->route('guilds.index');
+        } else 
+        {
+            return redirect()->back();
+        }
+    }
 }
