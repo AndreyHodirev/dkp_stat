@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Game;
 use App\Guild;
 use App\Application;
+use App\User;
 class GuildController extends Controller
 {
     /**
@@ -16,7 +17,14 @@ class GuildController extends Controller
     public function index()
     {
         $guilds = Guild::all();
-        return view('guilds.guildsIndex')->with('guilds',$guilds);
+        $user = User::find(Auth::id());
+        $is_leader = Guild::select('id','name')->where('leader_id', Auth::id())->first();
+        $is_member = ($user->guild_id == null) ? false : Guild::find($user->guild_id);
+        return view('guilds.guildsIndex',[
+            'guilds' => $guilds,
+            'is_leader'  => $is_leader,
+            'is_member'  => $is_member,
+        ]);
     }
 
     /**
@@ -43,6 +51,7 @@ class GuildController extends Controller
         } else { 
             $path = null;
         }
+        $user = User::find(Auth::id());
         $guild = new Guild;
         $guild->name = $request->input('name');
         $guild->description = $request->input('description');
@@ -50,6 +59,8 @@ class GuildController extends Controller
         $guild->path_logo = $path;
         $guild->game_id = $request->input('game');
         $guild->save();
+        $user->guild_id = $guild->id;
+        $user->save();
         return redirect()->route('guilds.index');
     }
     /**
@@ -63,8 +74,9 @@ class GuildController extends Controller
         $guild = Guild::find($id);
         return view('guilds.guildsShow',[
             'guild' => Guild::find($id),
+            'members' => User::select('name', 'id')->where('guild_id', $id)->get(),
+            'activ_user' => User::find(Auth::id()),
             'requests' => Application::where('guild_id', $id)->get(),
-            'is_member' => $guild->user()->where('id', Auth::id())->pluck('name'),
         ]);
     }
 
@@ -111,7 +123,8 @@ class GuildController extends Controller
     public function send_req(Request $request)
     {
         $guild = Guild::find($request->input('guild_id'));
-        if(  $guild->users()->pluck('id')->implode('') != Auth::id())
+        $user = User::find(Auth::id());
+        if($user->guild_id == null)
         {
             $app = new Application;
             $app->guild_id  = $request->input('guild_id');
@@ -128,14 +141,15 @@ class GuildController extends Controller
     public function memberAdd(Request $request)
     {
         $mngm = Guild::select('leader_id')->where('id',$request->input('guild_id'))->first();
+        $user = User::find($request->user_id);
         if(Auth::id() != $mngm->leader_id)
         {
             return redirect()->back();
         } else
         {
-            $guild = Guild::find($request->input('guild_id'));
-            $guild->users()->attach($request->input('user_id'));
             Application::destroy($request->input('id'));
+            $user->guild_id = $request->input('guild_id');
+            $user->save();
             return redirect()->route('guilds.show',['id' => $request->input('guild_id')]);
         }
     }

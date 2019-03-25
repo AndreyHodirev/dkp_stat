@@ -17,6 +17,7 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             $table->boolean('is_confirmed')->default(false);
             $table->boolean('is_admine_CH777')->default(false);
+            $table->integer('guild_id')->nullable();
             $table->string('phone')->unique();
             $table->string('name');
             $table->string('email')->unique();

@@ -20,7 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'phone', 'confirmation_token','is_confirmed','is_admine_CH777',
+        'name', 'email', 'password', 'phone', 'confirmation_token','is_confirmed','is_admine_CH777','guild_id',
     ];
     /**
      * or 
@@ -93,6 +93,10 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Application');
     }
+    public function guildM()
+    {
+        return $this->belongsTo('App\Guild', 'guild_id', 'id');
+    }
     /*
     * Many to Many relationships (role_user)
     */
@@ -106,13 +110,6 @@ class User extends Authenticatable
     public function events()
     {
         return $this->belongsToMany('App\Event');
-    }
-    /*
-    * Many to Many relationships (guild_user)
-    */
-    public function guilds()
-    {
-        return $this->belongsToMany('App\Guild');
     }
 }
 

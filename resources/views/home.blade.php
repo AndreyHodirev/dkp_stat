@@ -14,10 +14,13 @@
                         </div>
                     @endif
                     You are logged in! <br>
-                    You are in such guilds as:
-                    @foreach($user->guilds()->pluck('id') as $gg)
-                      <hr><a href="{{route('guilds.show', ['id' => $gg])}}">{{$user->guilds()->where('id', $gg)->pluck('name')->implode('')}}</a>
-                    @endforeach
+                    You guild:
+                    @if($user->guild_id != null)
+                        <a href="{{route('guilds.show',['id' => $user->guildM->id])}}">{{$user->guildM->name}}</a>
+                        
+                    @else 
+                        <p>No GUILD</p>
+                    @endif
                 </div>
             </div>
         </div>

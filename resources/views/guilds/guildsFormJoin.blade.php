@@ -18,6 +18,7 @@
                     @endif
                 </textarea>
             </div>
+            <input type="hidden" name="user_id" id="user_id" value="{{$auser->id}}">
             <input type="hidden" name="guild_id" id="guild_id" value="{{$guild->id}}">
             <button type="submit">SEND!</button>
         </form>
