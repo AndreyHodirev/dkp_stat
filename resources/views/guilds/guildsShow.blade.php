@@ -17,6 +17,9 @@
         </div>
     </div>
     <div class="container">
+        @if($activ_user->id == $guild->leader_id) 
+            <a href="{{route('guilds.edit',['id' => $guild->id])}}">Edit guild</a>
+        @endif
        <div class="col-sm-6">
            <h1>Members : </h1>
            @foreach($members as $mb)
@@ -45,7 +48,11 @@
         @endif
        </div>
        @if($activ_user->id == $guild->leader_id)
+            <form action="{{route('guilds.destroy',['id' => $guild->id])}}" method="POST">
+            @method('DELETE')
+            @csrf
             <button class="btn btn-alert">DELETE GUILD</button>
+            </form>
        @elseif($activ_user->guild_id == $guild->id)
             <form action="{{route('guild.exitMember')}}" method="POST">
                 {{csrf_field()}}

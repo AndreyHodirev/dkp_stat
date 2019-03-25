@@ -74,7 +74,7 @@ class GuildController extends Controller
         $user = User::find(Auth::id());
         $guild = Guild::find($id);
         if(!$guild) {
-            dd($guild);
+            return redirect()->back();
         }
         if($user->guild_id != $guild->id)
         {
@@ -96,7 +96,16 @@ class GuildController extends Controller
      */
     public function edit($id)
     {
-        //
+        $guild = Guild::find($id);
+        if($guild->leader_id == Auth::id())
+        {
+             return view('guilds.guildsEdit',[
+                        'guild' => $guild,
+                        ]);
+        } else 
+        {
+            return redirect()->back();
+        }
     }
 
     /**
@@ -108,7 +117,19 @@ class GuildController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::find(Auth::id());
+        $guild = Guild::find($id);
+        if($user->id == $guild->leader_id)
+        {
+            $guild->name = $request->input('name');
+            $guild->description = $request->input('description');
+            $guild->save();
+            return redirect()->route('guilds.show', ['id' => $id]);
+        } else 
+        {
+            return redirect()-back();
+        }
+
     }
 
     /**
@@ -119,7 +140,14 @@ class GuildController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $guild = Guild::find($id);
+        $user = User::find(Auth::id());
+        if($guild->leader_id == $user->id)
+        {
+            $guild->delete();
+            $user->guild_id = null;
+            return redirect()->route('guilds.index')->with('success', 'guild delete =( ');
+        }
     }
     
     public function to_join($id)
@@ -179,6 +207,8 @@ class GuildController extends Controller
     {
         $guild = Guild::find($id);
 
-        return view('guilds.promo');
+        return view('guilds.promo',[
+            'guild' => $guild,
+        ]);
     }
 }
