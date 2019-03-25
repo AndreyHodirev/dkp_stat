@@ -30,7 +30,9 @@ Route::middleware(['auth','confirmed'])->group(function(){
 });
 
 Route::middleware('auth')->group(function(){
+    Route::get('guilds/{guild}/promo', 'GuildController@promoPage')->name('guild.guildPromo');
     Route::get('users/{user}/request-confirmation', 'UserEmailConfirmationController@request')->name('request-confirm-email');
     Route::post('users/{user}/send-confirmation-email', 'UserEmailConfirmationController@sendEmail')->name('send-confirmation-email');
     Route::get('users/{user}/confirm-email/{token}', 'UserEmailConfirmationController@confirm')->name('confirm-email');
 });
+

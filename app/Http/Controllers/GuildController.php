@@ -71,7 +71,15 @@ class GuildController extends Controller
      */
     public function show($id)
     {
+        $user = User::find(Auth::id());
         $guild = Guild::find($id);
+        if(!$guild) {
+            dd($guild);
+        }
+        if($user->guild_id != $guild->id)
+        {
+            return redirect()->route('guild.guildPromo',['id' => $guild->id]);
+        }
         return view('guilds.guildsShow',[
             'guild' => Guild::find($id),
             'members' => User::select('name', 'id')->where('guild_id', $id)->get(),
@@ -118,6 +126,7 @@ class GuildController extends Controller
     {
         return view('guilds.guildsFormJoin',[
             'guild' => Guild::find($id),
+            'auser' => User::find(Auth::id()),
         ]);
     }
     public function send_req(Request $request)
@@ -165,5 +174,11 @@ class GuildController extends Controller
         {
             return redirect()->back();
         }
+    }
+    public function promoPage($id)
+    {
+        $guild = Guild::find($id);
+
+        return view('guilds.promo');
     }
 }
