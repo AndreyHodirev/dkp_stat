@@ -190,6 +190,22 @@ class GuildController extends Controller
             return redirect()->route('guilds.show',['id' => $request->input('guild_id')]);
         }
     }
+    public function userException(Request $request)
+    {
+        $activ_us = User::find(Auth::id());
+        $guild = Guild::find($request->input('guild_id'));
+        if($activ_us->id == $guild->user->id) // if leader 
+        {
+            $user = User::find($request->input('user_id'));
+            $user->guild_id = null;
+            $user->save();
+            return redirect()->back();
+        } else 
+        {
+            return redirect()->back();
+        }
+    }
+
     public function exitMember(Request $request)
     {
         if($request->input('user_id') == Auth::id())

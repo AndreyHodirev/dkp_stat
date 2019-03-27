@@ -23,7 +23,15 @@
        <div class="col-sm-6">
            <h1>Members : </h1>
            @foreach($members as $mb)
-               <p> <a href="">{{$mb->name}}</a></p>
+               <p> <a href="">{{$mb->name}}</a>
+                @if($activ_user->id == $guild->leader_id)
+                <form action="{{route('guild.usException')}}" method="POST">
+                    {{csrf_field()}}
+                    <input type="hidden" value="{{$guild->id}}" name="guild_id">
+                    <input type="hidden" value="{{$mb->id}}" name="user_id">
+                    <button class="btn btn-allert" type="submit">Exception</button>
+                </form></p>
+                @endif
            @endforeach
 
        </div>

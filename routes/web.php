@@ -27,6 +27,7 @@ Route::middleware(['auth','confirmed'])->group(function(){
     Route::post('/send_request', 'GuildController@send_req')->name('guild.request_new');
     Route::post('/addMember', 'GuildController@memberAdd')->name('guild.add_new_member');
     Route::post('/exitGuid', 'GuildController@exitMember')->name('guild.exitMember');
+    Route::post('/usExec', 'GuildController@userException')->name('guild.usException');
 });
 
 Route::middleware('auth')->group(function(){
