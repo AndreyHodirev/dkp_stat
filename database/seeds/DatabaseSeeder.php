@@ -11,6 +11,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        // need create -> .env ADMIN_PASSWORD=pass
+        // admin user default
         DB::table('users')->insert([
             'name' => 'Admin',
             'email' => 'admin@dkpstat.com',
