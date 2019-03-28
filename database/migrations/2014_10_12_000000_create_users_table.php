@@ -22,6 +22,13 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->integer('role_id')->default(6);
+            // ID 6 = Not activated
+            // ID 5 = Activated
+            // ID 4 = Recruit
+            // ID 3 = Guild Member 
+            // ID 2 = Guild Officer 
+            // ID 1 = Guild Leader 
             $table->string('password');
             $table->rememberToken();
             $table->string('confirmation_token')->unique()->nullable();

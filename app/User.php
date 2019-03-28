@@ -20,7 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'phone', 'confirmation_token','is_confirmed','is_admine_CH777','guild_id',
+        'name', 'email', 'password', 'phone', 'confirmation_token','is_confirmed','is_admine_CH777','guild_id','role_id'
     ];
     /**
      * or 
@@ -102,7 +102,7 @@ class User extends Authenticatable
     */
     public function roles()
     {
-        return $this->belongsToMany('App\Role');
+        return $this->belongsTo('App\Role');
     }
     /*
     * Many to Many relationships (event_user)
