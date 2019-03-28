@@ -22,6 +22,10 @@ class Guild extends Model
     {
         return $this->hasOne('App\Application');
     }
+    public function auction()
+    {
+        return $this->hasOne('App\Auction');
+    }
     public function userM()
     {
         return $this->hasOne('App\User', 'guild_id', 'id');

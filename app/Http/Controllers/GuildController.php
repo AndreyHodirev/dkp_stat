@@ -74,8 +74,8 @@ class GuildController extends Controller
     {
         $user = User::find(Auth::id());
         $guild = Guild::find($id);
-        if(!$guild) {
-            return redirect()->back();
+        if(!isset($guild)) {
+            return redirect()->route('home');
         }
         if($user->guild_id != $guild->id)
         {
@@ -176,23 +176,24 @@ class GuildController extends Controller
             return redirect()->route('home');
         } else 
         {
-            return redirect()->route('guilds.show', ['id' => $request->input('guild_id') ]);
+            return redirect()->route('guilds.show', ['id' => $user->guild_id]);
         }
     }
     public function memberAdd(Request $request)
     {
-        $mngm = Guild::select('leader_id')->where('id',$request->input('guild_id'))->first();
+        $guild = Guild::find($request->input('guild_id'));
         $user = User::find($request->user_id);
-        if(Auth::id() != $mngm->leader_id)
-        {
-            return redirect()->back();
-        } else
+        $activ_user = User::find(Auth::id());
+        if(($activ_user->role_id == 1 || $activ_user->role_id == 2) && $activ_user->guild_id == $guild->id)
         {
             Application::destroy($request->input('id'));
             $user->guild_id = $request->input('guild_id');
             $user->role_id = 3;
             $user->save();
             return redirect()->route('guilds.show',['id' => $request->input('guild_id')]);
+        } else
+        {
+            return redirect()->back();
         }
     }
     public function userException(Request $request)

@@ -24,7 +24,7 @@
            <h1>Members : </h1>
            @foreach($members as $mb)
                <p> <a href="">{{$mb->name}}</a>
-                @if($activ_user->id == $guild->leader_id)
+                @if($activ_user->id == $guild->leader_id && $activ_user->id != $mb->id)
                 <form action="{{route('guild.usException')}}" method="POST">
                     {{csrf_field()}}
                     <input type="hidden" value="{{$guild->id}}" name="guild_id">
@@ -36,9 +36,9 @@
 
        </div>
        <div class="col-sm-6">
-        @if($guild->leader_id == $activ_user->id)
+        @if($activ_user->role_id == 1 || $activ_user->role_id == 2)
            <h1>Incoming claims : </h1>
-           @foreach($requests as $rq)
+            @foreach($requests as $rq)
                 User name :  {{$rq->name}} <br>
                 Description : {{$rq->description}}
                 <form action="{{route('guild.add_new_member')}}" method="POST">
@@ -50,11 +50,17 @@
                     <input type="hidden" name="description" value="{{$rq->description}}">
                     <button type="submit" class="btn btn-primary">OK</button>
                 </form>
-           @endforeach
+            @endforeach           
         @else 
             <p>Entry applications can only be seen by the leader or officers</p>
         @endif
        </div>
+       <h2>Auctions: </h2>
+       @if($activ_user->role_id >= 4)
+            <a href="{{route('auction.create')}}" class="btn btn-primary">Add item</a> 
+       @endif
+       <a href="{{route('auction.index')}}" class="btn btn-info">All info</a>
+
        @if($activ_user->id == $guild->leader_id)
             <form action="{{route('guilds.destroy',['id' => $guild->id])}}" method="POST">
             @method('DELETE')
@@ -71,5 +77,6 @@
        @else
             <p>NO MEMBER</p>
        @endif
+
     </div>
 @stop 

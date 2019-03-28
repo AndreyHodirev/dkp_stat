@@ -94,16 +94,17 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Application');
     }
+    public function cAuction()
+    {
+        return $this->hasOne('App\Auction', 'user_create', 'id');
+    }
+    public function customerAuction()
+    {
+        return $this->hasOne('App\Auction', 'user_customer', 'id');
+    }
     public function guildM()
     {
         return $this->belongsTo('App\Guild', 'guild_id', 'id');
-    }
-    /*
-    * Many to Many relationships (role_user)
-    */
-    public function roles()
-    {
-        return $this->belongsTo('App\Role');
     }
     /*
     * Many to Many relationships (event_user)

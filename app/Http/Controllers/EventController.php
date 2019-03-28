@@ -1,13 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\User;
-use App\Auction;
+
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-
-class AuctionController extends Controller
+class EventController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,11 +13,7 @@ class AuctionController extends Controller
      */
     public function index()
     {
-        
-        $items = Auction::select('item_name', 'price')->where('guild_id', Auth::user()->guild_id)->get();
-        return view('auctions.auctionIndex',[
-            'items' => $items,
-        ]);
+        //
     }
 
     /**
@@ -30,16 +23,7 @@ class AuctionController extends Controller
      */
     public function create()
     {
-        // dd(Auth::user()->role_id);
-        if(Auth::user()->role_id <= 4)
-        {
-            return redirect()->route('home');
-        } else
-        {
-            return view('auctions.auctionNew',[
-                'guild_id' => Auth::user()->guild_id,
-            ]);
-        }
+        //
     }
 
     /**
@@ -50,14 +34,7 @@ class AuctionController extends Controller
      */
     public function store(Request $request)
     {
-        $newAucItem = new Auction;
-        $newAucItem->item_name = $request->input('item_name');
-        $newAucItem->description = $request->input('item_description');
-        $newAucItem->price = $request->input('price');
-        $newAucItem->user_create = Auth::id();
-        $newAucItem->guild_id = $request->input('guild_id');
-        $newAucItem->save();
-        return redirect()->route('auction.index');
+        //
     }
 
     /**
