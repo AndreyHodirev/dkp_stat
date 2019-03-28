@@ -71,6 +71,7 @@ class User extends Authenticatable
         $this->update([
             'is_confirmed' => true,
             'confirmation_token' => null,
+            'role_id' => 5,
         ]);
         return $this;
     }
