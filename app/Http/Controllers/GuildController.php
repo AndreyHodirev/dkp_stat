@@ -60,6 +60,7 @@ class GuildController extends Controller
         $guild->game_id = $request->input('game');
         $guild->save();
         $user->guild_id = $guild->id;
+        $user->role_id = 1;
         $user->save();
         return redirect()->route('guilds.index');
     }
@@ -146,6 +147,7 @@ class GuildController extends Controller
         {
             $guild->delete();
             $user->guild_id = null;
+            $user->role_id = 5;
             return redirect()->route('guilds.index')->with('success', 'guild delete =( ');
         }
     }
@@ -169,6 +171,8 @@ class GuildController extends Controller
             $app->name      = $request->input('name');
             $app->description = $request->input('description');
             $app->save();
+            $user->role_id = 4;
+            $user->save();
             return redirect()->route('home');
         } else 
         {
@@ -186,6 +190,7 @@ class GuildController extends Controller
         {
             Application::destroy($request->input('id'));
             $user->guild_id = $request->input('guild_id');
+            $user->role_id = 3;
             $user->save();
             return redirect()->route('guilds.show',['id' => $request->input('guild_id')]);
         }
@@ -198,6 +203,7 @@ class GuildController extends Controller
         {
             $user = User::find($request->input('user_id'));
             $user->guild_id = null;
+            $user->role_id = 5;
             $user->save();
             return redirect()->back();
         } else 
@@ -212,6 +218,7 @@ class GuildController extends Controller
         {
             $user = User::find(Auth::id());
             $user->guild_id = null;
+            $user->role_id = 5;
             $user->save();
             return redirect()->route('guilds.index');
         } else 
