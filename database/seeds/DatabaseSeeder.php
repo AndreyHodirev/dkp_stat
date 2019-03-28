@@ -22,6 +22,6 @@ class DatabaseSeeder extends Seeder
             'phone' =>'000000000',
 
         ]);
-        // $this->call(UsersTableSeeder::class);
+         $this->call(RoleSeeder::class);
     }
 }
