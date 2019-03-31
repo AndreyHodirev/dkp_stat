@@ -23,7 +23,7 @@
        <div class="col-sm-6">
            <h1>Members : </h1>
            @foreach($members as $mb)
-               <p> <a href="">{{$mb->name}}</a>
+               <p> <a href="">{{$mb->name}}</a> Role : {{$mb->role->role_name}}
                 @if($activ_user->id == $guild->leader_id && $activ_user->id != $mb->id)
                 <form action="{{route('guild.usException')}}" method="POST">
                     {{csrf_field()}}
@@ -56,10 +56,13 @@
         @endif
        </div>
        <h2>Auctions: </h2>
-       @if($activ_user->role_id >= 4)
+       @if($activ_user->role_id <= 2)
             <a href="{{route('auction.create')}}" class="btn btn-primary">Add item</a> 
        @endif
        <a href="{{route('auction.index')}}" class="btn btn-info">All info</a>
+       @foreach($auctions as $auc)
+            <p>{{$auc->item_name}} Price : {{$auc->price}}</p>
+       @endforeach
 
        @if($activ_user->id == $guild->leader_id)
             <form action="{{route('guilds.destroy',['id' => $guild->id])}}" method="POST">

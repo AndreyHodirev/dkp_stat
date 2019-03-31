@@ -7,6 +7,7 @@ use App\Game;
 use App\Guild;
 use App\Application;
 use App\User;
+use App\Auction;
 class GuildController extends Controller
 {
     /**
@@ -83,9 +84,10 @@ class GuildController extends Controller
         }
         return view('guilds.guildsShow',[
             'guild' => Guild::find($id),
-            'members' => User::select('name', 'id')->where('guild_id', $id)->get(),
+            'members' => User::where('guild_id', $id)->get(),
             'activ_user' => User::find(Auth::id()),
             'requests' => Application::where('guild_id', $id)->get(),
+            'auctions' => Auction::where('guild_id', $id)->get(),
         ]);
     }
 
@@ -200,7 +202,7 @@ class GuildController extends Controller
     {
         $activ_us = User::find(Auth::id());
         $guild = Guild::find($request->input('guild_id'));
-        if($activ_us->id == $guild->user->id) // if leader 
+        if(($activ_user->role_id == 1 || $activ_user->role_id == 2) && $activ_user->guild_id == $guild->id) // if leader  or office
         {
             $user = User::find($request->input('user_id'));
             $user->guild_id = null;
