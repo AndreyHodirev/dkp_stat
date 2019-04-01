@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateApplicationsTable extends Migration
+class CreateAucStatusesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreateApplicationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('applications', function (Blueprint $table) {
+        Schema::create('auc_statuses', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('user_id');
-            $table->integer('guild_id');
+            // 1 - New 
+            // 2 - Purchased
+            // 3 - close 
+            // 4 - delete 
             $table->string('name');
-            $table->text('description');
-            $table->text('gm_description')->nullable();
-            $table->integer('status_id');
             $table->timestamps();
         });
     }
@@ -32,6 +31,6 @@ class CreateApplicationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('applications');
+        Schema::dropIfExists('auc_statuses');
     }
 }

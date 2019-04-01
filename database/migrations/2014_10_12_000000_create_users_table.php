@@ -32,7 +32,9 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->string('confirmation_token')->unique()->nullable();
+            $table->integer('balance')->default(0);
             $table->timestamps();
+
         });
     }
 

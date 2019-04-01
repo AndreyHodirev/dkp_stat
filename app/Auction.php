@@ -18,4 +18,8 @@ class Auction extends Model
     {
         return $this->belongsTo('App\Guild');
     }
+    public function status()
+    {
+        return $this->belongsTo('App\AucStatus', 'id', 'auc_status_id');
+    }
 }

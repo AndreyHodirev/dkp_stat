@@ -16,10 +16,18 @@ class AuctionController extends Controller
      */
     public function index()
     {
-        
-        $items = Auction::select('item_name', 'price')->where('guild_id', Auth::user()->guild_id)->get();
+        $activ_user = Auth::user()->role_id;
+        if ($activ_user <= 2)
+        {
+            $mngm = true;
+        } else 
+        {
+            $mngm = false;
+        }
+        $items = Auction::select('id','item_name', 'price')->where('guild_id', Auth::user()->guild_id)->get();
         return view('auctions.auctionIndex',[
             'items' => $items,
+            'edit_visible' => $mngm,
         ]);
     }
 
@@ -31,14 +39,14 @@ class AuctionController extends Controller
     public function create()
     {
         // dd(Auth::user()->role_id);
-        if(Auth::user()->role_id <= 4)
-        {
-            return redirect()->route('home');
-        } else
+        if(Auth::user()->role_id <= 2)
         {
             return view('auctions.auctionNew',[
                 'guild_id' => Auth::user()->guild_id,
             ]);
+        } else
+        {
+            return redirect()->back();
         }
     }
 
@@ -79,7 +87,16 @@ class AuctionController extends Controller
      */
     public function edit($id)
     {
-        //
+        $auction_item = Auction::find($id);
+        if(($auction_item->guild_id == Auth::user()->guild_id) && Auth::user()->role_id <= 2) //if item != guild -> redirect guild page 
+        {
+            return view('auctions.auctionEdit',[
+                'item' => Auction::find($id),
+            ]);
+        } else 
+        {
+            return redirect()->route('guilds.show',['id' => Auth::user()->guild_id]);
+        }
     }
 
     /**
@@ -92,6 +109,15 @@ class AuctionController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $auc_item = Auction::find($id);
+        if((Auth::user()->guild_id == $auc_item->guild_id) && Auth::user()->role_id <= 2)
+        {
+            $auc_item->item_name != $request->input('item_name') ? $auc_item->item_name = $request->input('item_name') : false;
+            $auc_item->description != $request->input('description') ? $auc_item->description = $request->input('description') : false;
+            $auc_item->price != $request->input('price') ? $auc_item->price = $request->input('price') : false;
+            $auc_item->save();
+            return redirect()->route('auction.index');
+        }
     }
 
     /**

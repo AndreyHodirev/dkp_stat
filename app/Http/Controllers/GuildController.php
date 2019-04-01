@@ -86,7 +86,7 @@ class GuildController extends Controller
             'guild' => Guild::find($id),
             'members' => User::where('guild_id', $id)->get(),
             'activ_user' => User::find(Auth::id()),
-            'requests' => Application::where('guild_id', $id)->get(),
+            'requests' => Application::where('guild_id', $id)->where('status_id', 1)->get(),
             'auctions' => Auction::where('guild_id', $id)->get(),
         ]);
     }
@@ -158,7 +158,7 @@ class GuildController extends Controller
     {
         return view('guilds.guildsFormJoin',[
             'guild' => Guild::find($id),
-            'auser' => User::find(Auth::id()),
+            'auser' => Auth::user(),
         ]);
     }
     public function send_req(Request $request)
@@ -172,6 +172,7 @@ class GuildController extends Controller
             $app->user_id   = Auth::id();
             $app->name      = $request->input('name');
             $app->description = $request->input('description');
+            $app->status_id = 1;
             $app->save();
             $user->role_id = 4;
             $user->save();
@@ -186,9 +187,11 @@ class GuildController extends Controller
         $guild = Guild::find($request->input('guild_id'));
         $user = User::find($request->user_id);
         $activ_user = User::find(Auth::id());
+        $appl = Application::find($request->input('id'));
         if(($activ_user->role_id == 1 || $activ_user->role_id == 2) && $activ_user->guild_id == $guild->id)
         {
-            Application::destroy($request->input('id'));
+            $appl->status_id = 2;
+            $appl->save();
             $user->guild_id = $request->input('guild_id');
             $user->role_id = 3;
             $user->save();
@@ -202,7 +205,7 @@ class GuildController extends Controller
     {
         $activ_us = User::find(Auth::id());
         $guild = Guild::find($request->input('guild_id'));
-        if(($activ_user->role_id == 1 || $activ_user->role_id == 2) && $activ_user->guild_id == $guild->id) // if leader  or office
+        if(($activ_us->role_id == 1 || $activ_us->role_id == 2) && $activ_us->guild_id == $guild->id) // if leader  or office
         {
             $user = User::find($request->input('user_id'));
             $user->guild_id = null;
@@ -236,5 +239,21 @@ class GuildController extends Controller
         return view('guilds.promo',[
             'guild' => $guild,
         ]);
+    }
+    public function cce(Request $request)
+    {
+        $applic = Application::find($request->input('id'));
+        $user = User::find($applic->user_id);
+        if(Auth::user()->role_id <= 2 && (Auth::user()->guild_id == $applic->guild_id))
+        {
+            $applic->status_id = 3;
+            $user->role_id = 4;
+            $applic->save();
+            $user->save();
+            return redirect()->back();
+        } else 
+        {
+            return redirect()->route('home');
+        }
     }
 }

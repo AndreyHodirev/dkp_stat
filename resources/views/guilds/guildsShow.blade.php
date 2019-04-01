@@ -35,7 +35,7 @@
            @endforeach
 
        </div>
-       <div class="col-sm-6">
+       <div class="col-sm-12">
         @if($activ_user->role_id == 1 || $activ_user->role_id == 2)
            <h1>Incoming claims : </h1>
             @foreach($requests as $rq)
@@ -49,6 +49,11 @@
                     <input type="hidden" name="name" value="{{$rq->name}}">
                     <input type="hidden" name="description" value="{{$rq->description}}">
                     <button type="submit" class="btn btn-primary">OK</button>
+                </form>
+                <form action="{{route('guild.cencel')}}" method="POST">
+                    {{csrf_field()}}
+                    <input type="hidden" name="id" value="{{$rq->id}}">
+                    <button type="submit" class="btn btn-alert">CENCEL</button>
                 </form>
             @endforeach           
         @else 

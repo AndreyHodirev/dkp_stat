@@ -18,6 +18,7 @@ class CreateAuctionsTable extends Migration
             $table->integer('user_create');
             $table->integer('user_customer')->nullable();
             $table->integer('guild_id');
+            $table->integer('auc_status_id')->nullable();
             $table->string('item_name');
             $table->text('description')->nullable();
             $table->integer('price');

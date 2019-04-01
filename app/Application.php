@@ -15,4 +15,8 @@ class Application extends Model
     {
         return $this->belongsTo('App\Guild', 'guild_id', 'id');
     }
+    public function status()
+    {
+        return $this->belongsTo('App\ApplStatus', 'status_id', 'id');
+    }
 }
