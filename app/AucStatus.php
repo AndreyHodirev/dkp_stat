@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class AucStatus extends Model
 {
     //
-    public function auction()
+    public function auctions()
     {
-        return $this->hasOne('App\Auction', 'auc_status_id', 'id');
+        return $this->hasMany('App\Auction');
     }
 }

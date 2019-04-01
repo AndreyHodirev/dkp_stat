@@ -17,10 +17,13 @@
                     You guild:
                     @if($user->guild_id != null)
                         <a href="{{route('guilds.show',['id' => $user->guildM->id])}}">{{$user->guildM->name}}</a>
-                        
                     @else 
                         <p>No GUILD</p>
                     @endif
+                        <hr>
+                    @foreach($buy as $b)
+                        <p>{{$b->item_name}} PRICE : {{$b->price}}</p>
+                    @endforeach
                 </div>
             </div>
         </div>

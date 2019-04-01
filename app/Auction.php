@@ -20,6 +20,6 @@ class Auction extends Model
     }
     public function status()
     {
-        return $this->belongsTo('App\AucStatus', 'id', 'auc_status_id');
+        return $this->belongsTo('App\AucStatus','auc_status_id');
     }
 }

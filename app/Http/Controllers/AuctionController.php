@@ -24,7 +24,7 @@ class AuctionController extends Controller
         {
             $mngm = false;
         }
-        $items = Auction::select('id','item_name', 'price')->where('guild_id', Auth::user()->guild_id)->get();
+        $items = Auction::select('id','item_name', 'price','auc_status_id')->where('guild_id', Auth::user()->guild_id)->get();
         return view('auctions.auctionIndex',[
             'items' => $items,
             'edit_visible' => $mngm,
@@ -63,6 +63,7 @@ class AuctionController extends Controller
         $newAucItem->description = $request->input('item_description');
         $newAucItem->price = $request->input('price');
         $newAucItem->user_create = Auth::id();
+        $newAucItem->auc_status_id = 1;
         $newAucItem->guild_id = $request->input('guild_id');
         $newAucItem->save();
         return redirect()->route('auction.index');
@@ -129,5 +130,42 @@ class AuctionController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function buy($id)
+    {
+        $auc = Auction::find($id);
+        if(Auth::user()->guild_id == $auc->guild_id)
+        {
+            return view('auctions.auctionBuyItem',[
+                'item' => $auc,
+                'user' => Auth::user(),
+            ]);
+        } else 
+        {
+            return redirect()->route('home')->with('success','Opsss');
+        }
+    }
+    public function buyConfirm(Request $request)
+    {
+        $item = Auction::find($request->input('item_id'));
+        if(Auth::user()->guild_id == $item->guild_id)
+        {
+            if(Auth::user()->balance < $item->price)
+            {
+                return redirect()->back()->with('status','Low balance');
+            } else {
+                Auth::user()->balance = Auth::user()->balance - $item->price;
+                Auth::user()->save();
+                $item->user_customer = Auth::id();
+                $item->auc_status_id = 2;
+                $item->save();
+                return redirect()->route('guilds.show',['id' => Auth::user()->guild_id])->with('status','You buy item'.$item->name);
+            }
+           
+        } else 
+        {
+            return redirect()->route('guilds.show',['id' => Auth::user()->guild_id]);
+        }
     }
 }

@@ -81,9 +81,9 @@ class User extends Authenticatable
         return $this->guilds()->where('leader_id', Auth::id())->pluck('id');
     }
 
-    public function game()
+    public function games()
     {
-        return $this->hasOne('App\Game');
+        return $this->hasMany('App\Game');
     }
     public function role()
     {
@@ -96,15 +96,15 @@ class User extends Authenticatable
     }
     public function applications()
     {
-        return $this->hasOne('App\Application');
+        return $this->hasMany('App\Application');
     }
     public function cAuction()
     {
-        return $this->hasOne('App\Auction', 'user_create', 'id');
+        return $this->hasMany('App\Auction', 'user_create', 'id');
     }
     public function customerAuction()
     {
-        return $this->hasOne('App\Auction', 'user_customer', 'id');
+        return $this->hasMany('App\Auction', 'user_customer', 'id');
     }
     public function guildM()
     {

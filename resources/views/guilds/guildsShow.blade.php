@@ -6,6 +6,11 @@
         <h3>Logo guild : <img src="{{asset('/storage/' . $guild->path_logo)}}" alt=""></h3>
     </div>
     <div class="container">
+        @if (session('status'))
+            <div class="alert alert-success" role="alert">
+                {{ session('status') }}
+            </div>
+        @endif  
         <div>
             @if($activ_user->guild_id == null)
                 <a href="{{route('guild.join',['id' => $guild->id])}}" class="btn btn-warning">Join the guild</a>
@@ -64,9 +69,9 @@
        @if($activ_user->role_id <= 2)
             <a href="{{route('auction.create')}}" class="btn btn-primary">Add item</a> 
        @endif
-       <a href="{{route('auction.index')}}" class="btn btn-info">All info</a>
+            <a href="{{route('auction.index')}}" class="btn btn-info">All info</a>
        @foreach($auctions as $auc)
-            <p>{{$auc->item_name}} Price : {{$auc->price}}</p>
+            <p>{{$auc->item_name}} Price : {{$auc->price}}</p> <a href="{{route('auc.buy',['id'=> $auc->id])}}">Buy</a>
        @endforeach
 
        @if($activ_user->id == $guild->leader_id)

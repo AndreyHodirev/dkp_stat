@@ -30,6 +30,8 @@ Route::middleware(['auth','confirmed'])->group(function(){
     Route::post('/exitGuid', 'GuildController@exitMember')->name('guild.exitMember');
     Route::post('/usExec', 'GuildController@userException')->name('guild.usException');
     Route::post('/cencelaActi', 'GuildController@cce')->name('guild.cencel');
+    Route::get('/auction/buy/{auction}', 'AuctionController@buy')->name('auc.buy');
+    Route::post('/auction/buy', 'AuctionController@buyConfirm')->name('auc.buyConfirm');
 });
 
 Route::middleware('auth')->group(function(){

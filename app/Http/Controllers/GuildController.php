@@ -87,7 +87,7 @@ class GuildController extends Controller
             'members' => User::where('guild_id', $id)->get(),
             'activ_user' => User::find(Auth::id()),
             'requests' => Application::where('guild_id', $id)->where('status_id', 1)->get(),
-            'auctions' => Auction::where('guild_id', $id)->get(),
+            'auctions' => Auction::where('guild_id', $id)->where('auc_status_id', 1)->get(),
         ]);
     }
 
@@ -147,6 +147,13 @@ class GuildController extends Controller
         $user = User::find(Auth::id());
         if($guild->leader_id == $user->id)
         {
+            $user = User::select('id','guild_id')->where('guild_id',$id)->get();
+            foreach($user as $us)
+            {
+                $us->guild_id = null;
+                $us->save();
+            }
+
             $guild->delete();
             $user->guild_id = null;
             $user->role_id = 5;
