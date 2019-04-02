@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
+use App\User;
 class EventController extends Controller
 {
     /**
@@ -14,6 +15,7 @@ class EventController extends Controller
     public function index()
     {
         //
+        return view('events.eventIndex');
     }
 
     /**
@@ -23,7 +25,18 @@ class EventController extends Controller
      */
     public function create()
     {
-        //
+        #
+        if(Auth::user()->role_id <= 2)
+        {
+            return view('events.eventCreate',[
+                'guild_id' => Auth::user()->guild_id,
+                'members' => User::where('guild_id', Auth::user()->guild_id)->get(),
+            ]);
+        } else 
+        {
+            return redirect()->route('events.index')->with('status','No privileges');
+        }
+        
     }
 
     /**

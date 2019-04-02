@@ -23,6 +23,7 @@ Route::middleware(['auth','confirmed'])->group(function(){
         'guilds' => 'GuildController',
         'games' => 'GameController',
         'auction' => 'AuctionController',
+        'events' => 'EventController',
     ]);
     Route::get('/to_join/{guild}', 'GuildController@to_join')->name('guild.join');
     Route::post('/send_request', 'GuildController@send_req')->name('guild.request_new');
@@ -32,6 +33,8 @@ Route::middleware(['auth','confirmed'])->group(function(){
     Route::post('/cencelaActi', 'GuildController@cce')->name('guild.cencel');
     Route::get('/auction/buy/{auction}', 'AuctionController@buy')->name('auc.buy');
     Route::post('/auction/buy', 'AuctionController@buyConfirm')->name('auc.buyConfirm');
+    Route::get('/auction/close/{auction}', 'AuctionController@closeOrder')->name('auc.closeOrder');
+
 });
 
 Route::middleware('auth')->group(function(){

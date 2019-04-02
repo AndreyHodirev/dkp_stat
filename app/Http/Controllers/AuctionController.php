@@ -168,4 +168,17 @@ class AuctionController extends Controller
             return redirect()->route('guilds.show',['id' => Auth::user()->guild_id]);
         }
     }
+    public function closeOrder($id)
+    {
+        $item = Auction::find($id);
+        if(Auth::user()->role_id <= 2 && Auth::user()->guild_id == $item->guild_id)
+        {
+            $item->auc_status_id = 3;
+            $item->save();
+            return redirect()->route('auction.index')->with('status', 'Order CLOSE');
+        } else 
+        { 
+            return redirect()->route('auction.index')->with('status', 'No access');
+        }
+    }
 }
