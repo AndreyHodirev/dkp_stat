@@ -110,6 +110,10 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Guild', 'guild_id', 'id');
     }
+    public function event()
+    {
+        return $this->hasMany('App\Event', 'user_id', 'id');
+    }
     /*
     * Many to Many relationships (event_user)
     */

@@ -10,6 +10,10 @@ class Event extends Model
     {
         return $this->belongsTo('App\Guild');
     }
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
     
     /*
     * Many to Many relationships (event_user)
@@ -18,5 +22,6 @@ class Event extends Model
     {
         return $this->belongsToMany('App\User');
     }
+
 
 }

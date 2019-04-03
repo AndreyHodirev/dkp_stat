@@ -17,19 +17,14 @@
             </textarea>
             <label for="price">Price (points) : </label>
             <input type="text" name="price" class="form-control" placeholder="100">
-            <label for="members"> Select Members : </label>
-            <select multiple class="form-control" name="members" id="member">
-            @foreach($members as $memb)
-                <option value="{{$memb->id}}">
-                <div class="form-check">   
-                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                        <label class="form-check-label" for="defaultCheck1">
-                        {{$memb->name}}
-                        </label>
-                </div>
-                </option>
-            @endforeach
-            </select>
+            <label class="col-sm-2 control-label">Select Members : </label><br>
+            <div style="height:100px; overflow:auto; border:solid 1px #C3E4FE;" class="form-control" >
+                @foreach($members as $member)
+                    <input type="checkbox" name="members[]" value="{{$member->id}}"/>{{$member->name}}
+                    <br>
+                @endforeach
+            </div>
+            <br>
             <button type="submit" class="btn btn-success">CREATE EVENT</button>
         </form>
     </div>
