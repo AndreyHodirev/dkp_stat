@@ -14,13 +14,16 @@ class Event extends Model
     {
         return $this->belongsTo('App\User');
     }
-    
+    public function status()
+    {
+        return $this->belongsTo('App\EventStatus', 'event_status_id', 'id');
+    }
     /*
     * Many to Many relationships (event_user)
     */
     public function users()
     {
-        return $this->belongsToMany('App\User');
+        return $this->belongsToMany('App\User','event_user');
     }
 
 
