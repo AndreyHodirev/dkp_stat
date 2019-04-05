@@ -13,6 +13,7 @@
            
             <p>{{$item->description}}</p>
             <p>Status :  {{$item->status->name}}</p>
+            <a href="{{route('auc.buy',['id' => $item->id])}}" class="btn btn-success">Buy ITEM</a>
             @if($edit_visible)
                 <a href="{{route('auction.edit', ['id' => $item->id])}}" class="btn btn-success">Edit</a>
                 <a href="{{route('auc.closeOrder',['id' => $item->id])}}" class="btn btn-danger">CLOSE ORDER</a>
