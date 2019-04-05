@@ -16,6 +16,7 @@
                 <hr class="my-4">
                 <p>Event price : {{$event->event_price}} points.</p>
                 <p>Event leader : {{$event->user->name}}</p>
+                <p>Event status : {{$event->status->name}}</p>
                 <p class="lead">
                     <a class="btn btn-primary btn-lg" href="{{route('events.show',['id' => $event->id])}}" role="button">Learn more</a>
                 </p>     

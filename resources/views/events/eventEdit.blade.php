@@ -22,22 +22,23 @@
                 <label class="col-sm-2 control-label">Select Members : </label><br>
                 <div style="height:100px; overflow:auto; border:solid 1px #C3E4FE;" class="form-control" >
                     @foreach($members as $member)
+                        @php ($val = false)
                         @foreach($event->users()->pluck('id') as $us_id)
-                            @if($us_id == $member->id)
-                                {{$check = true}}
+                            @if($member->id == $us_id)
+                                <input type="checkbox" name="members[]" value="{{$member->id}}" checked/>{{$member->name}}
+                                <br>
+                                @php ($val = true)
+                                @break
                             @endif
                         @endforeach
-                        @if($check == true)
-                            <input type="checkbox" name="members[]" value="{{$member->id}}" checked/>{{$member->name}}
-                            <br>
-                        @else 
-                            <input type="checkbox" name="members[]" value="{{$member->id}}"/>{{$member->name}}
+                        @if($val != true)
+                            <input type="checkbox" name="members[]" value="{{$member->id}}" />{{$member->name}}
                             <br>
                         @endif
                     @endforeach
                 </div>
                 <br>
-                <button type="submit" class="btn btn-success">CREATE EVENT</button>
+                <button type="submit" class="btn btn-success"> UPDATE EVENT</button>
             </form>        
     </div>
 @stop 

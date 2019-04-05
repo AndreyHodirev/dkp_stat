@@ -16,9 +16,26 @@
                     <p>Event leader : {{$event->user->name}}</p>
                     <p>Event status : {{$event->status->name}}</p>
                     <p class="lead">
-                        <a class="btn btn-primary btn-lg" href="{{route('events.edit',['id' => $event->id])}}" role="button">Edit event</a>
+                        <a class="btn btn-primary" href="{{route('events.edit',['id' => $event->id])}}" role="button">Edit event</a>
+                        @if(Auth::user()->role_id <= 2 && (Auth::user()->guild_id == $event->guild_id) && $event->event_status_id <= 2)
+                            <form action="{{route('events.close_event_success')}}" method="POST">
+                                @csrf
+                                <input type="hidden" name="event_id" value="{{$event->id}}">
+                                <button type="submit" class="btn btn-success">Close and pay reward</button>
+                            </form>
+                            <form action="{{route('events.close_event_fail')}}" method="POST">
+                                @csrf
+                                <input type="hidden" name="event_id" value="{{$event->id}}">
+                                <button type="submit" class="btn btn-danger">Close without payment</button>
+                            </form>
+                        @elseif(Auth::user()->role_id <= 2 && (Auth::user()->guild_id == $event->guild_id))
+                            <form action="{{route('events.event_delete')}}" method="POST">
+                                @csrf
+                                <input type="hidden" name="event_id" value="{{$event->id}}">
+                                <button type="submit" class="btn btn-danger">DELETE EVENT</button>
+                            </form>
+                        @endif
                     </p>     
-               
                 </div>
         </div> 
     </div>
