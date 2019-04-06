@@ -263,4 +263,12 @@ class GuildController extends Controller
             return redirect()->route('home');
         }
     }
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+        $searchResult = Guild::where('name', 'LIKE', "%$search%")->get();
+        return view('guilds.guildsSearchResult',[
+            'guilds' => $searchResult,
+        ]);
+    }
 }

@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'DKP Online') }}</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -43,30 +43,34 @@
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Guild
                         </a>
-                        @if(Auth::user()->guild_id == null)
+                        @if(Auth::check())
+                            @if(Auth::user()->guild_id != null)
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{route('guilds.index')}}">Guild list</a>
-                            <a class="dropdown-item" href="{{route('games.index')}}">Game list</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{route('guilds.create')}}">Create guild</a>
-                            </div>
+                                <a class="dropdown-item" href="{{route('guilds.show',['id' => Auth::user()->guild_id])}}">Guild Profile</a>
+                                <a class="dropdown-item" href="{{route('auction.index')}}">Auctions list</a>
+                                <a class="dropdown-item" href="{{route('events.index')}}">Event list</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{route('home')}}">User profile</a>
+                            </div> 
+                            @endif
                         @else
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{route('guilds.show',['id' => Auth::user()->guild_id])}}">Guild profile</a>
-                            <a class="dropdown-item" href="{{route('events.index')}}">Events</a>
-                            <a class="dropdown-item" href="{{route('auction.index')}}">Auctions</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{route('home')}}">Profile</a>
-                            </div>
+                                <a class="dropdown-item" href="{{route('guilds.index')}}">Guild list</a>
+                                <a class="dropdown-item" href="{{route('games.index')}}">Game list</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{route('guilds.create')}}">Create guild</a>
+                            </div>  
                         @endif
+                        
                     </li>
                     <li class="nav-item">
                         <a class="nav-link disabled" href="#">Disabled</a>
                     </li>
                     </ul>
-                    <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Guild name" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search guild</button>
+                    <form class="form-inline my-2 my-lg-0" method="POST" action="{{route('guild.search')}}">
+                        @csrf
+                        <input class="form-control mr-sm-2" type="search" placeholder="Guild name" aria-label="Search" name="search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search guild</button>
                     </form>
                 </div>
 

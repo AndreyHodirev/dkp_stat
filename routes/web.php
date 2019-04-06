@@ -49,6 +49,7 @@ Route::middleware('auth')->group(function(){
     Route::get('users/{user}/confirm-email/{token}', 'UserEmailConfirmationController@confirm')->name('confirm-email');
 });
 
+Route::post('/search', 'GuildController@search')->name('guild.search');
 Route::get('guilds/{guild}/promo', 'GuildController@promoPage')->name('guild.guildPromo');
 
 
