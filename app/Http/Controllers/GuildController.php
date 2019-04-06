@@ -7,6 +7,7 @@ use App\Game;
 use App\Guild;
 use App\Application;
 use App\User;
+use App\Event;
 use App\Auction;
 class GuildController extends Controller
 {
@@ -88,6 +89,7 @@ class GuildController extends Controller
             'activ_user' => User::find(Auth::id()),
             'requests' => Application::where('guild_id', $id)->where('status_id', 1)->get(),
             'auctions' => Auction::where('guild_id', $id)->where('auc_status_id', 1)->get(),
+            'events' => Event::where('guild_id', $id)->where('event_status_id','<=',2)->get(),
         ]);
     }
 
