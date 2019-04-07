@@ -38,9 +38,10 @@
                             {{csrf_field()}}
                             <input type="hidden" value="{{$guild->id}}" name="guild_id">
                             <input type="hidden" value="{{$mb->id}}" name="user_id">
-                            <button class="btn btn-allert" type="submit">Exception</button>
+                            <button class="btn btn-warning btn-block" type="submit">Exception</button>
                         </form></p>
                         @endif
+                        <hr>
                     @endforeach
                 </div>
             </div>
@@ -82,7 +83,7 @@
                 
                 <div style="height:500px; overflow:auto; border:solid 1px #C3E4FE;" class="form-control" >
                 @foreach($auctions as $auc)
-                        <p>{{$auc->item_name}} Price : {{$auc->price}}</p> <a href="{{route('auc.buy',['id'=> $auc->id])}}">Buy</a>
+                        <p>{{$auc->item_name}} Price : {{$auc->price}}</p> <a class="btn btn-success btn-block" href="{{route('auc.buy',['id'=> $auc->id])}}">Buy</a>
                 @endforeach
                 </div>
                 <div class="container">
@@ -109,8 +110,51 @@
                     <a href="{{route('events.index')}}" class="btn btn-success btn-block">Show all events</a>
                     <div style="height:500px; overflow:auto; border:solid 1px #C3E4FE;" class="form-control" >
                         @foreach($events as $event)
-                        <hr>
+                            @php ($in_event = false)
+                            @foreach($event->users()->pluck('id') as $id_event_user)
+                                @if($id_event_user == Auth::user()->id)
+                                    @php ($in_event = true) 
+                                @endif
+                            @endforeach
                             <p>Event : {{$event->event_name}} leader : {{$event->user->name}}</p>
+                            <div class="container">
+                                <div class="row">
+                                    @if($activ_user->guild_id == $guild->id && $activ_user->role_id <= 2)
+                                        <div class="col-sm">
+                                            <form action="{{route('events.close_event_success')}}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="event_id" value="{{$event->id}}">
+                                                <button type="submit" class="btn btn-success btn-block">Close and pay reward</button>
+                                            </form>
+                                        </div>
+                                        <div class="col-sm">
+                                            <form action="{{route('events.close_event_fail')}}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="event_id" value="{{$event->id}}">
+                                                <button type="submit" class="btn btn-danger btn-block">Close without payment</button>
+                                            </form>
+                                        </div>
+                                    @endif
+                                    @if($in_event == true)
+                                        <div class="col-sm">
+                                            <form action="" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="event_id" value="{{$event->id}}">
+                                                <button type="submit" class="btn btn-danger btn-block">Refuse to participate</button>
+                                            </form>
+                                        </div>
+                                    @else 
+                                        <div class="col-sm">
+                                            <form action="" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="event_id" value="{{$event->id}}">
+                                                <button type="submit" class="btn btn-success btn-block">Agree to participate</button>
+                                            </form>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        <hr>
                         @endforeach
                     </div>
                 </div>

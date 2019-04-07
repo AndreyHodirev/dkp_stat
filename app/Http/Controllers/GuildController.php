@@ -165,11 +165,17 @@ class GuildController extends Controller
     
     public function to_join($id)
     {
-        return view('guilds.guildsFormJoin',[
-            'guild' => Guild::find($id),
-            'auser' => Auth::user(),
-        ]);
+        if(Auth::user()->guild_id != null)
+        {
+            return redirect()->route('guilds.show', ['id' => Auth::user()->guild_id])->with('status','Error! You member guild');
+        } else {
+            return view('guilds.guildsFormJoin',[
+                'guild' => Guild::find($id),
+                'auser' => Auth::user(),
+            ]);
+        }
     }
+    //
     public function send_req(Request $request)
     {
         $guild = Guild::find($request->input('guild_id'));
