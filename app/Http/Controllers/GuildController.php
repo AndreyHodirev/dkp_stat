@@ -253,6 +253,9 @@ class GuildController extends Controller
 
         return view('guilds.promo',[
             'guild' => $guild,
+            'events_end' => Event::where('event_status_id', 3)->where('guild_id', $id)->get()->count(),
+            'members_count' => User::where('guild_id', $id)->get()->count(),
+            'auction_end' => Auction::where('guild_id', $id)->where('auc_status_id', 3)->get()->count(),
         ]);
     }
     public function cce(Request $request)
