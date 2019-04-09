@@ -17,7 +17,7 @@ class EventController extends Controller
     {
         //
         return view('events.eventIndex',[
-            'events' => Event::where('guild_id', Auth::user()->guild_id)->where('event_status_id','!=',4)->get(),
+            'events' => Event::where('guild_id', Auth::user()->guild_id)->where('event_status_id', 1)->get(),
         ]);
     }
 
