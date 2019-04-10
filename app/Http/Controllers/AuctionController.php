@@ -24,7 +24,7 @@ class AuctionController extends Controller
         {
             $mngm = false;
         }
-        $items = Auction::select('id','item_name', 'price','auc_status_id')->where('guild_id', Auth::user()->guild_id)->get();
+        $items = Auction::where('guild_id', Auth::user()->guild_id)->where('auc_status_id', 1)->get();
         return view('auctions.auctionIndex',[
             'items' => $items,
             'edit_visible' => $mngm,

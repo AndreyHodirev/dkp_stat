@@ -8,6 +8,20 @@
             {{ session('status') }}
         </div>
         @endif
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+                    <a href="" class="btn btn-success btn-block">Add new item</a>
+                </div>
+                <div class="col-sm">
+                    <a href="" class="btn btn-primary btn-block">Show purchased items </a>
+                </div>
+                <div class="col-sm">
+                    <a href="" class="btn btn-warning btn-block">Show hidden items</a>
+                </div>
+            </div>
+        </div>
+        <hr>
         @foreach($items as $item )
             <p>{{$item->item_name}} Price : {{$item->price}}</p> 
            
