@@ -40,6 +40,8 @@ Route::middleware(['auth','confirmed'])->group(function(){
     Route::post('/closeEventSuccess', 'EventController@event_success_close')->name('events.close_event_success');
     Route::post('/closeEventFail', 'EventController@event_fail_close')->name('events.close_event_fail');
     Route::post('/deleteEvent', 'EventController@event_delete')->name('events.event_delete');
+    //ajax
+    Route::post('/ev_status', 'AjaxController@event_status')->name('event_status');
 
 });
 

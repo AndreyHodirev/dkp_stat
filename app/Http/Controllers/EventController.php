@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\User;
 use App\Event;
+use Response;
+
 class EventController extends Controller
 {
     /**
@@ -217,5 +219,4 @@ class EventController extends Controller
             return redirect()->route('home')->with('status', 'Access denied');
         }
     }
-    
 }

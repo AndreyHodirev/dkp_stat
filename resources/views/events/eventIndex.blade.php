@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
     <div class="container">
         @if (session('status'))
             <div class="alert alert-success" role="alert">
@@ -11,10 +12,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm">
-                    <a href="" class="btn btn-success btn-block">Show end events</a>
+                    <button class="btn btn-success btn-block" id="end_events">Show end events</button>
                 </div>
                 <div class="col-sm">
-                    <a href="" class="btn btn-warning btn-block">Show delte events</a>
+                    <button class="btn btn-warning btn-block" id="delete_events">Show delte events</button>
                 </div>
             </div>
         </div>
@@ -31,6 +32,28 @@
                 </p>     
             </div>
         @endforeach
-        
     </div>
+
+    <script>
+        $('#end_events').bind('click', function(){
+            var token = $('meta[name="csrf-token"]').attr('content');
+            var data = {};
+            // data['_token'] = token;
+            data['status'] = 2;
+            $.ajax({
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'POST',
+                url: '/ev_status',
+                data: data,
+                dataType:"json",
+                success: function(data){
+                    alert(data);
+                },error:function(){
+                    alert('Error!!!');
+                }
+            });
+        });
+    </script>
 @stop 
