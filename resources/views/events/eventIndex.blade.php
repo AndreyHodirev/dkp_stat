@@ -20,7 +20,7 @@
             </div>
         </div>
         @foreach($events as $event)
-            <div class="jumbotron">
+            <div class="jumbotron" id="first">
                 <h1 class="display-4">{{$event->event_name}}</h1>
                 <p class="lead">{{$event->event_description}}</p>
                 <hr class="my-4">
@@ -32,6 +32,9 @@
                 </p>     
             </div>
         @endforeach
+        <div class="jumbotron" id="second_content">
+
+        </div>
     </div>
 
     <script>
@@ -49,7 +52,15 @@
                 data: data,
                 dataType:"json",
                 success: function(data){
-                    alert(data);
+                    $('#first').empty();
+                    $('#second_content').empty();
+                    $(data).each(function(index, value){
+                        $(value).each(function(i, event){
+                            $('#second_content').append(
+                                'Event name : ' + event.event_name + '<br> Event description : ' + event.event_description + ' <br> Event price : ' + event.event_price + '<hr>'
+                            );
+                        });
+                    });
                 },error:function(){
                     alert('Error!!!');
                 }
