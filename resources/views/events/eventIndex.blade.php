@@ -19,21 +19,48 @@
                 </div>
             </div>
         </div>
-        @foreach($events as $event)
-            <div class="jumbotron" id="first">
-                <h1 class="display-4">{{$event->event_name}}</h1>
-                <p class="lead">{{$event->event_description}}</p>
-                <hr class="my-4">
-                <p>Event price : {{$event->event_price}} points.</p>
-                <p>Event leader : {{$event->user->name}}</p>
-                <p>Event status : {{$event->status->name}}</p>
-                <p class="lead">
-                    <a class="btn btn-primary btn-lg" href="{{route('events.show',['id' => $event->id])}}" role="button">Learn more</a>
-                </p>     
+        <div class="container" id="default_table">
+            <div class="row">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Event Name</th>
+                                <th scope="col">Event Price</th>
+                                <th scope="col">Event Leader</th>
+                                <th scope="col">Event Status</th>
+                                <th scope="col">INFO</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($events as $event)
+                                <tr>
+                                    <th>{{$event->event_name}}</th>
+                                    <td>{{$event->event_price}} points</td>
+                                    <td>{{$event->user->name}}</td>
+                                    <td>{{$event->status->name}}</td>
+                                    <td><a href="{{route('events.show',['id' => $event->id])}}" class="btn btn-primary btn-sm">Learn more</a></td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    
+                    </table>
             </div>
-        @endforeach
-        <div class="jumbotron" id="second_content">
-
+        </div>
+        <div class="container" id="second_table">
+            <div class="row">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Event Name</th>
+                                <th scope="col">Event Price</th>
+                                <th scope="col">INFO</th>
+                            </tr>
+                        </thead>
+                        <tbody id="second_table_body">
+                            
+                        </tbody>    
+                    </table>
+            </div>
         </div>
     </div>
 
@@ -52,12 +79,16 @@
                 data: data,
                 dataType:"json",
                 success: function(data){
-                    $('#first').empty();
-                    $('#second_content').empty();
+                    $('#default_table').empty();
+                    $('#second_table_body').empty();
+                    route = 'events.show';
                     $(data).each(function(index, value){
                         $(value).each(function(i, event){
-                            $('#second_content').append(
-                                'Event name : ' + event.event_name + '<br> Event description : ' + event.event_description + ' <br> Event price : ' + event.event_price + '<hr>'
+                            id = event.id;
+                            $('#second_table_body').append(
+                                '<tr><th>' + event.event_name + '</th>' + 
+                                '<th>' + event.event_price + '</th>' +
+                                '<th><a href="{{route("events.show",["id" => ])}}" class="btn btn-primary btn-sm">Learn more</a></th></tr>' 
                             );
                         });
                     });
