@@ -12,10 +12,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm">
-                    <button class="btn btn-success btn-block" id="end_events">Show end events</button>
+                    <button class="btn btn-success btn-block info" id="end_events" value=3>Show end events</button>
                 </div>
                 <div class="col-sm">
-                    <button class="btn btn-warning btn-block" id="delete_events">Show delte events</button>
+                    <button class="btn btn-warning btn-block info" id="delete_events" value=4>Show delte events</button>
                 </div>
             </div>
         </div>
@@ -65,11 +65,11 @@
     </div>
 
     <script>
-        $('#end_events').bind('click', function(){
+        $('.info').bind('click', function(){
             var token = $('meta[name="csrf-token"]').attr('content');
             var data = {};
+            data['status'] = $(this).attr('value');
             // data['_token'] = token;
-            data['status'] = 2;
             $.ajax({
                 headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -88,7 +88,7 @@
                             $('#second_table_body').append(
                                 '<tr><th>' + event.event_name + '</th>' + 
                                 '<th>' + event.event_price + '</th>' +
-                                '<th><a href="{{route("events.show",["id" => ])}}" class="btn btn-primary btn-sm">Learn more</a></th></tr>' 
+                                '<th><a href="/events/'+event.id+'" class="btn btn-primary btn-sm">Learn More</a></th></tr>' 
                             );
                         });
                     });
@@ -97,5 +97,6 @@
                 }
             });
         });
+      
     </script>
 @stop 

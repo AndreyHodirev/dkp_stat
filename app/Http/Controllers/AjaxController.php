@@ -11,7 +11,7 @@ class AjaxController extends Controller {
 
     public function event_status(Request $request)
     {
-        $result = Event::where('guild_id', Auth::user()->guild_id)->where('event_status_id', 3)->get();
+        $result = Event::where('guild_id', Auth::user()->guild_id)->where('event_status_id', $request->status)->get();
         return response()->json($result);
     }
 }
